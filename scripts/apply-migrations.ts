@@ -38,7 +38,8 @@ async function applyMigrations() {
     console.log(`Executing statement ${i + 1}/${statements.length}...`);
 
     try {
-      await sql(statement);
+      // Use neon's unsafe query method for dynamic SQL
+      await sql.unsafe(statement);
       console.log(`✓ Statement ${i + 1} executed successfully`);
     } catch (error: any) {
       console.error(`✗ Error executing statement ${i + 1}:`, error.message);

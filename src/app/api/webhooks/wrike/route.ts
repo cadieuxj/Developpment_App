@@ -48,10 +48,11 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     });
 
-    // TODO: Implement webhook processing logic
-    // - Map Wrike task to internal task
-    // - Update task status in database
-    // - Trigger real-time updates to connected clients
+    // Process webhook based on event type
+    if (payload.type === 'TaskUpdated' || payload.type === 'TaskCreated') {
+      const { processWrikeWebhook } = await import('@/lib/integrations/wrike-webhook');
+      await processWrikeWebhook(payload);
+    }
 
     return NextResponse.json(
       { success: true, message: 'Webhook processed' },
