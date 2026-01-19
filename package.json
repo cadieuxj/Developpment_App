@@ -11,6 +11,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:apply": "tsx scripts/apply-migrations.ts",
     "wrike:setup": "tsx scripts/setup-wrike-webhook.ts"
   },
   "dependencies": {
@@ -42,12 +43,12 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
+    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.38.3",
     "drizzle-zod": "^0.5.1",
     "lucide-react": "^0.469.0",
     "monaco-editor": "^0.52.2",
     "next": "^15.2.3",
-
     "next-themes": "^0.4.4",
     "octokit": "^4.0.2",
     "pgvector": "^0.2.0",
