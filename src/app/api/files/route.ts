@@ -56,10 +56,12 @@ export async function POST(request: Request) {
       projectId: data.projectId,
       name: data.name,
       path: data.path,
-      isDirectory: data.isDirectory,
+      type: data.isDirectory ? 'folder' : 'file',
       parentId: data.parentId || null,
       language: data.language || null,
       content: data.content || '',
+      tenantId: organization.id,
+      createdBy: userId,
     });
 
     return NextResponse.json(file);
@@ -94,13 +96,13 @@ export async function PUT(request: Request) {
     const data = updateFileSchema.parse(body);
 
     // Get file and verify ownership
-    const file = await dal.files.getById(data.fileId);
+    const file = await dal.files.getById(data.fileId, organization.id);
 
     if (!file) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
 
-    const project = await dal.projects.getById(file.projectId);
+    const project = await dal.projects.getById(file.projectId, organization.id);
 
     if (!project) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
@@ -150,13 +152,13 @@ export async function DELETE(request: Request) {
     }
 
     // Get file and verify ownership
-    const file = await dal.files.getById(fileId);
+    const file = await dal.files.getById(fileId, organization.id);
 
     if (!file) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
 
-    const project = await dal.projects.getById(file.projectId);
+    const project = await dal.projects.getById(file.projectId, organization.id);
 
     if (!project) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
