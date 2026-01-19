@@ -95,7 +95,7 @@ export async function deployProject(input: DeployProjectInput) {
     }
 
     // Trigger deployment
-    const deployment = await deployToVercel(vercelProjectId, branch || project.githubBranch);
+    const deployment = await deployToVercel(vercelProjectId, branch || project.githubBranch || undefined);
 
     // Record deployment in database
     const deploymentRecord = await dal.deployments.create({
