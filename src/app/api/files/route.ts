@@ -42,9 +42,9 @@ export async function POST(request: Request) {
     const data = createFileSchema.parse(body);
 
     // Verify project belongs to organization
-    const project = await dal.projects.getById(data.projectId);
+    const project = await dal.projects.getById(data.projectId, organization.id);
 
-    if (!project || project.tenantId !== organization.id) {
+    if (!project) {
       return NextResponse.json(
         { error: 'Project not found' },
         { status: 404 }
@@ -102,7 +102,7 @@ export async function PUT(request: Request) {
 
     const project = await dal.projects.getById(file.projectId);
 
-    if (!project || project.tenantId !== organization.id) {
+    if (!project) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
@@ -158,7 +158,7 @@ export async function DELETE(request: Request) {
 
     const project = await dal.projects.getById(file.projectId);
 
-    if (!project || project.tenantId !== organization.id) {
+    if (!project) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 

@@ -31,7 +31,7 @@ export default async function AnalyticsPage() {
   // Get cost summary per project
   const projectCosts = await Promise.all(
     projects.map(async (project) => {
-      const summary = await dal.aiLogs.getCostSummary(project.id);
+      const summary = await dal.aiLogs.getCostSummary(project.id, organization.id);
       return {
         projectId: project.id,
         projectName: project.name,

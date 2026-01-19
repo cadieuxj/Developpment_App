@@ -4,6 +4,9 @@ import { DeploymentsList } from '@/components/deployments/deployments-list';
 import { DeployButton } from '@/components/deployments/deploy-button';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
+import type { Deployment } from '@/lib/db/schema';
+
+type DeploymentWithProject = Deployment & { projectName: string };
 
 export default async function DeploymentsPage() {
   const { userId, orgId } = await auth();
@@ -25,15 +28,15 @@ export default async function DeploymentsPage() {
   // Get all deployments for the organization
   const allDeployments = await Promise.all(
     projects.map(async (project) => {
-      const deployments = await dal.deployments.getAllByProject(project.id);
-      return deployments.map((deployment) => ({
+      const deployments = await dal.deployments.getAllByProject(project.id, organization.id);
+      return deployments.map((deployment): DeploymentWithProject => ({
         ...deployment,
         projectName: project.name,
       }));
     })
   );
 
-  const deployments = allDeployments.flat().sort((a, b) => {
+  const deployments: DeploymentWithProject[] = allDeployments.flat().sort((a, b) => {
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 

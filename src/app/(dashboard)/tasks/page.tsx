@@ -69,7 +69,7 @@ export default async function TasksPage() {
       </div>
 
       {/* Kanban Board */}
-      <KanbanBoard initialTasks={tasks} />
+      <KanbanBoard tasks={tasksByStatus} />
     </div>
   );
 }

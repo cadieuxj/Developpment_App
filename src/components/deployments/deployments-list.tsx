@@ -5,21 +5,11 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, Clock, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface Deployment {
-  id: string;
-  projectId: string;
+import type { Deployment as DeploymentType } from '@/lib/db/schema';
+
+type Deployment = DeploymentType & {
   projectName: string;
-  vercelDeploymentId: string | null;
-  vercelUrl: string | null;
-  status: 'queued' | 'building' | 'deploying' | 'ready' | 'error' | 'canceled';
-  branch: string | null;
-  commitHash: string | null;
-  commitMessage: string | null;
-  buildLogs: string | null;
-  errorMessage: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
+};
 
 interface DeploymentsListProps {
   deployments: Deployment[];

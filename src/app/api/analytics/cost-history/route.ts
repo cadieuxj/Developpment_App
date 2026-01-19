@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     const result = await db
       .select({
         date: sql<string>`DATE(${aiLogs.createdAt})`,
-        cost: sql<number>`SUM(${aiLogs.totalCost})`,
+        cost: sql<number>`COALESCE(SUM(${aiLogs.cost}), 0)`,
       })
       .from(aiLogs)
       .where(

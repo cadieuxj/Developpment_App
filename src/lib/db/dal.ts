@@ -470,9 +470,11 @@ export const aiLogsDal = {
   async getCostSummary(projectId: string, tenantId: string) {
     const result = await db
       .select({
-        totalCost: sql<number>`SUM(${aiLogs.cost})`,
-        totalTokens: sql<number>`SUM(${aiLogs.totalTokens})`,
-        requestCount: sql<number>`COUNT(*)`,
+        totalCost: sql<number>`COALESCE(SUM(${aiLogs.cost}), 0)`,
+        totalTokens: sql<number>`COALESCE(SUM(${aiLogs.totalTokens}), 0)`,
+        totalRequests: sql<number>`COUNT(*)`,
+        promptTokens: sql<number>`COALESCE(SUM(${aiLogs.promptTokens}), 0)`,
+        completionTokens: sql<number>`COALESCE(SUM(${aiLogs.completionTokens}), 0)`,
       })
       .from(aiLogs)
       .where(and(eq(aiLogs.projectId, projectId), eq(aiLogs.tenantId, tenantId)));
@@ -486,9 +488,9 @@ export const aiLogsDal = {
   async getTenantCostSummary(tenantId: string) {
     const result = await db
       .select({
-        totalCost: sql<number>`SUM(${aiLogs.cost})`,
-        totalTokens: sql<number>`SUM(${aiLogs.totalTokens})`,
-        requestCount: sql<number>`COUNT(*)`,
+        totalCost: sql<number>`COALESCE(SUM(${aiLogs.cost}), 0)`,
+        totalTokens: sql<number>`COALESCE(SUM(${aiLogs.totalTokens}), 0)`,
+        totalRequests: sql<number>`COUNT(*)`,
       })
       .from(aiLogs)
       .where(eq(aiLogs.tenantId, tenantId));
@@ -503,9 +505,9 @@ export const aiLogsDal = {
     return await db
       .select({
         model: aiLogs.model,
-        totalCost: sql<number>`SUM(${aiLogs.cost})`,
-        totalTokens: sql<number>`SUM(${aiLogs.totalTokens})`,
-        requestCount: sql<number>`COUNT(*)`,
+        totalCost: sql<number>`COALESCE(SUM(${aiLogs.cost}), 0)`,
+        totalTokens: sql<number>`COALESCE(SUM(${aiLogs.totalTokens}), 0)`,
+        totalRequests: sql<number>`COUNT(*)`,
       })
       .from(aiLogs)
       .where(eq(aiLogs.tenantId, tenantId))

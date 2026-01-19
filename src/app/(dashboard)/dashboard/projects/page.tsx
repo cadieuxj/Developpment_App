@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
     return <div>Organization not found</div>;
   }
 
-  const projects = await dal.projects.getAll(organization.id);
+  const projects = await dal.projects.getAllByTenant(organization.id);
 
   return (
     <div className="space-y-6">

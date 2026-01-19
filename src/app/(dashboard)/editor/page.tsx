@@ -29,12 +29,12 @@ export default async function EditorPage({ searchParams }: EditorPageProps) {
 
   // If projectId is provided, get that project and its files
   let selectedProject = null;
-  let files = [];
+  let files: Awaited<ReturnType<typeof dal.files.getAllByProject>> = [];
 
   if (params.projectId) {
-    selectedProject = projects.find((p) => p.id === params.projectId);
+    selectedProject = projects.find((p) => p.id === params.projectId) || null;
     if (selectedProject) {
-      files = await dal.files.getAllByProject(selectedProject.id);
+      files = await dal.files.getAllByProject(selectedProject.id, organization.id);
     }
   }
 
@@ -43,12 +43,23 @@ export default async function EditorPage({ searchParams }: EditorPageProps) {
     redirect(`/dashboard/editor?projectId=${projects[0].id}`);
   }
 
+  // Map database files to FileNode interface expected by CodeEditor
+  const mappedFiles = files.map((file) => ({
+    id: file.id,
+    name: file.name,
+    path: file.path,
+    isDirectory: file.type === 'folder',
+    language: file.language || undefined,
+    content: file.content || undefined,
+    parentId: file.parentId,
+  }));
+
   return (
     <div className="h-[calc(100vh-4rem)]">
       <CodeEditor
         projects={projects}
         selectedProject={selectedProject}
-        initialFiles={files}
+        initialFiles={mappedFiles}
         organizationId={organization.id}
       />
     </div>
