@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "wrike:setup": "tsx scripts/setup-wrike-webhook.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.11.0",
@@ -68,6 +69,7 @@
     "eslint-config-next": "^15.2.3",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }
