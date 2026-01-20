@@ -33,11 +33,17 @@ interface CreateTaskDialogProps {
 export function CreateTaskDialog({ open, onOpenChange, projectId }: CreateTaskDialogProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string;
+    description: string;
+    status: 'todo' | 'in_progress' | 'review' | 'done';
+    priority: 'low' | 'medium' | 'high' | 'urgent';
+    projectId: string;
+  }>({
     title: '',
     description: '',
-    status: 'todo' as const,
-    priority: 'medium' as const,
+    status: 'todo',
+    priority: 'medium',
     projectId: projectId || '',
   });
 
