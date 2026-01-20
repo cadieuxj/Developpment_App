@@ -109,7 +109,7 @@ export async function PUT(request: Request) {
     }
 
     // Update file content
-    const updatedFile = await dal.files.update(data.fileId, {
+    const updatedFile = await dal.files.update(data.fileId, organization.id, {
       content: data.content,
     });
 
@@ -165,7 +165,7 @@ export async function DELETE(request: Request) {
     }
 
     // Delete file
-    await dal.files.delete(fileId);
+    await dal.files.delete(fileId, organization.id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

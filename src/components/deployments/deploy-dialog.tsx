@@ -51,14 +51,17 @@ export function DeployDialog({ open, onOpenChange, projects }: DeployDialogProps
 
     try {
       // Parse environment variables
-      const environmentVariables: Record<string, string> = {};
+      const environmentVariables: Array<{ key: string; value: string }> = [];
       if (formData.envVars.trim()) {
         const lines = formData.envVars.split('\n');
         for (const line of lines) {
           const trimmed = line.trim();
           if (trimmed && trimmed.includes('=')) {
             const [key, ...valueParts] = trimmed.split('=');
-            environmentVariables[key.trim()] = valueParts.join('=').trim();
+            environmentVariables.push({
+              key: key.trim(),
+              value: valueParts.join('=').trim(),
+            });
           }
         }
       }
@@ -66,7 +69,7 @@ export function DeployDialog({ open, onOpenChange, projects }: DeployDialogProps
       await deployProject({
         projectId: formData.projectId,
         branch: formData.branch,
-        environmentVariables,
+        environmentVariables: environmentVariables.length > 0 ? environmentVariables : undefined,
       });
 
       toast.success('Deployment started successfully');

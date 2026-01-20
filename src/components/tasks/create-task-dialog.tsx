@@ -52,7 +52,8 @@ export function CreateTaskDialog({ open, onOpenChange, projectId }: CreateTaskDi
         status: formData.status,
         priority: formData.priority,
         projectId: formData.projectId || undefined,
-        position: 0, // Will be calculated server-side
+        columnId: formData.status,
+        position: 0,
       });
 
       toast.success('Task created successfully');

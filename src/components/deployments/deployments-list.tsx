@@ -110,11 +110,11 @@ export function DeploymentsList({ deployments }: DeploymentsListProps) {
                       <p className="font-mono">{deployment.branch}</p>
                     </div>
                   )}
-                  {deployment.commitHash && (
+                  {deployment.commitSha && (
                     <div>
                       <span className="text-gray-500 dark:text-gray-400">Commit:</span>
                       <p className="font-mono truncate">
-                        {deployment.commitHash.substring(0, 7)}
+                        {deployment.commitSha.substring(0, 7)}
                       </p>
                     </div>
                   )}
@@ -151,10 +151,10 @@ export function DeploymentsList({ deployments }: DeploymentsListProps) {
               </div>
 
               <div className="flex flex-col gap-2 ml-4">
-                {deployment.vercelUrl && (
+                {deployment.url && (
                   <Button variant="outline" size="sm" asChild>
                     <a
-                      href={deployment.vercelUrl}
+                      href={deployment.url}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
