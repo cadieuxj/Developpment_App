@@ -10,6 +10,19 @@ Build, deploy, and manage AI-powered applications with an integrated code editor
 
 ---
 
+## 🚨 First Time Setup
+
+If you're seeing **"Organization not found"** when accessing the dashboard, you need to sync your Clerk organization to the database.
+
+**Quick fix:**
+```bash
+npm run org:create <your-clerk-org-id> "Your Organization Name"
+```
+
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
+
+---
+
 ## 🌟 Features
 
 ### 🎨 AI-Native IDE
