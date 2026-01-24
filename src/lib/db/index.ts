@@ -18,13 +18,16 @@ if (!process.env.DATABASE_URL) {
 
 const sql = neon(process.env.DATABASE_URL);
 
-const neonClient = ((query: string, params?: unknown[], options?: unknown) => {
-  return sql.query(query, params ?? [], options as never);
-}) as typeof sql;
-
-neonClient.query = sql.query.bind(sql);
-neonClient.transaction = sql.transaction.bind(sql);
-neonClient.unsafe = sql.unsafe.bind(sql);
+const neonClient = Object.assign(
+  (query: string, params?: unknown[], options?: unknown) => {
+    return sql.query(query, params ?? [], options as never);
+  },
+  {
+    query: sql.query.bind(sql),
+    transaction: sql.transaction.bind(sql),
+    unsafe: sql.unsafe.bind(sql),
+  }
+) as unknown as typeof sql;
 
 export const db = drizzle(neonClient, { schema });
 
