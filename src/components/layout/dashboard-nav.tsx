@@ -30,7 +30,9 @@ export function DashboardNav() {
       <div className="space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive = item.href === '/dashboard'
+            ? pathname === '/dashboard'
+            : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link

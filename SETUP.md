@@ -78,6 +78,23 @@ ngrok http 3000
 
 If you haven't set up the database yet:
 
+### Local Docker database (optional)
+
+If you want a local Postgres database in Docker:
+
+```bash
+docker compose up -d db
+```
+
+Then set these in `.env.local`:
+
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/sovereign_ai"
+DIRECT_URL="postgresql://postgres:postgres@localhost:5432/sovereign_ai"
+```
+
+The container runs init scripts that enable `pgcrypto` and load the initial Drizzle migration from `drizzle/`.
+
 ### Step 1: Configure environment variables
 
 Create a `.env.local` file with:

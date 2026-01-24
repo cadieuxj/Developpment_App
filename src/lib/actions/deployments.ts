@@ -109,8 +109,8 @@ export async function deployProject(input: DeployProjectInput) {
       triggeredBy: userId,
     } as NewDeployment);
 
-    revalidatePath(`/projects/${projectId}`);
-    revalidatePath('/deployments');
+    revalidatePath(`/dashboard/projects/${projectId}`);
+    revalidatePath('/dashboard/deployments');
 
     return {
       success: true,

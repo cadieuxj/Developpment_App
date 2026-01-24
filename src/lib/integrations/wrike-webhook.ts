@@ -63,7 +63,7 @@ export async function processWrikeWebhook(payload: WrikeWebhookPayload) {
       lastSyncedAt: new Date(),
     });
 
-    revalidatePath('/tasks');
+    revalidatePath('/dashboard/tasks');
     revalidatePath('/dashboard');
     */
 

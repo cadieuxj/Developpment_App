@@ -91,7 +91,7 @@ export async function createTask(input: CreateTaskInput & { syncToWrike?: boolea
     }
   }
 
-  revalidatePath('/tasks');
+  revalidatePath('/dashboard/tasks');
   revalidatePath('/dashboard');
 
   return { success: true, task };
@@ -139,7 +139,7 @@ export async function updateTask(input: UpdateTaskInput & { syncToWrike?: boolea
     }
   }
 
-  revalidatePath('/tasks');
+  revalidatePath('/dashboard/tasks');
   revalidatePath('/dashboard');
 
   return { success: true, task };
@@ -193,7 +193,7 @@ export async function moveTask(input: MoveTaskInput & { syncToWrike?: boolean })
     }
   }
 
-  revalidatePath('/tasks');
+  revalidatePath('/dashboard/tasks');
   revalidatePath('/dashboard');
 
   return { success: true };
@@ -228,7 +228,7 @@ export async function deleteTask(taskId: string, syncToWrike = false) {
   // Delete task (will cascade to sync state)
   await dal.tasks.delete(taskId, organization.id);
 
-  revalidatePath('/tasks');
+  revalidatePath('/dashboard/tasks');
   revalidatePath('/dashboard');
 
   return { success: true };

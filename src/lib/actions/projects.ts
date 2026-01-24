@@ -64,7 +64,7 @@ export async function createProject(input: CreateProjectInput) {
   } as NewProject);
 
   // 5. Revalidate the projects page to show the new project
-  revalidatePath('/projects');
+  revalidatePath('/dashboard/projects');
 
   return {
     success: true,
@@ -110,7 +110,7 @@ export async function archiveProject(projectId: string) {
   }
 
   await dal.projects.archive(projectId, organization.id);
-  revalidatePath('/projects');
+  revalidatePath('/dashboard/projects');
 
   return { success: true };
 }
