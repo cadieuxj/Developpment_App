@@ -2,16 +2,28 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { DashboardNav } from '@/components/layout/dashboard-nav';
 import { DashboardHeader } from '@/components/layout/dashboard-header';
+import { OrganizationGate } from '@/components/layout/organization-gate';
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
   if (!userId) {
     redirect('/sign-in');
+  }
+
+  if (!orgId) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <DashboardHeader />
+        <main className="p-6">
+          <OrganizationGate />
+        </main>
+      </div>
+    );
   }
 
   return (

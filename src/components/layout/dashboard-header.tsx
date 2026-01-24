@@ -1,6 +1,6 @@
 'use client';
 
-import { UserButton } from '@clerk/nextjs';
+import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
 import { Bell, Settings } from 'lucide-react';
 
 export function DashboardHeader() {
@@ -13,6 +13,7 @@ export function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-4">
+          <OrganizationSwitcher hidePersonal />
           <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
             <Bell className="w-5 h-5" />
           </button>
