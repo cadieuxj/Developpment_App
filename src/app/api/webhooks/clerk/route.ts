@@ -23,7 +23,7 @@ export async function GET() {
 export async function POST(req: Request) {
   console.log('[Clerk Webhook] 📥 Received webhook request');
 
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET?.trim();
 
   if (!WEBHOOK_SECRET) {
     console.error('[Clerk Webhook] ❌ CLERK_WEBHOOK_SECRET not configured');
@@ -50,9 +50,8 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the body
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  // Get the raw body for signature verification
+  const body = await req.text();
 
   // Create a new Svix instance with your secret
   const wh = new Webhook(WEBHOOK_SECRET);
