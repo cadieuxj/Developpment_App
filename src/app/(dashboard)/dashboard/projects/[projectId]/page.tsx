@@ -5,13 +5,14 @@ import { dal } from '@/lib/db/dal';
 import { Button } from '@/components/ui/button';
 
 interface ProjectDetailPageProps {
-  params: {
+  params: Promise<{
     projectId: string;
-  };
+  }>;
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { userId, orgId } = await auth();
+  const routeParams = await params;
 
   if (!userId || !orgId) {
     return <div>Unauthorized</div>;
@@ -23,7 +24,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     return <div>Organization not found</div>;
   }
 
-  const project = await dal.projects.getWithRelations(params.projectId, organization.id);
+  const project = await dal.projects.getWithRelations(routeParams.projectId, organization.id);
 
   if (!project) {
     notFound();
