@@ -14,7 +14,7 @@ If you're seeing "Organization not found" when accessing dashboard pages, this m
 
 ### Step 2: Create the organization in the database
 
-Run this command (replace with your values):
+Run this command (replace with your values): t
 
 ```bash
 npm run org:create <clerk-org-id> "Organization Name" [optional-slug]
