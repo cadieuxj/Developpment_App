@@ -17,7 +17,7 @@ export default async function DashboardLayout({
 
   if (!orgId) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-background">
         <DashboardHeader />
         <main className="p-6">
           <OrganizationGate />
@@ -27,11 +27,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background flex flex-col">
       <DashboardHeader />
-      <div className="flex">
+      <div className="flex flex-1 overflow-hidden">
         <DashboardNav />
-        <main className="flex-1 p-6">
+        <main className="flex-1 overflow-y-auto p-6">
           {children}
         </main>
       </div>

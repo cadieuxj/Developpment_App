@@ -513,6 +513,18 @@ export const aiLogsDal = {
       .where(eq(aiLogs.tenantId, tenantId))
       .groupBy(aiLogs.model);
   },
+
+  /**
+   * Get all AI logs for a tenant (for the AI Logs viewer page)
+   */
+  async getAllByTenant(tenantId: string, limit = 200): Promise<AILog[]> {
+    return await db
+      .select()
+      .from(aiLogs)
+      .where(eq(aiLogs.tenantId, tenantId))
+      .orderBy(desc(aiLogs.createdAt))
+      .limit(limit);
+  },
 };
 
 // ============================================================================

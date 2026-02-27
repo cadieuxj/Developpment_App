@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" className="dark">
+        <body className={`${inter.className} antialiased`}>{children}</body>
       </html>
     </ClerkProvider>
   );

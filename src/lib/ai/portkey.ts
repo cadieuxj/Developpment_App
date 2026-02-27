@@ -86,24 +86,29 @@ export async function chatCompletion(
 
   const data: ChatCompletionResponse = await response.json();
 
-  // Log usage to database
-  await logAIUsage(data, metadata, request.model);
+  // Log usage to database (including prompt + completion text)
+  await logAIUsage(data, metadata, request.model, request);
 
   return data;
 }
 
 /**
- * Log AI usage to database for cost tracking
+ * Log AI usage to database for cost tracking, including prompt/completion text
  */
 async function logAIUsage(
   response: ChatCompletionResponse,
   metadata: AIRequestMetadata,
-  model: string
+  model: string,
+  request: ChatCompletionRequest
 ) {
   const { usage } = response;
 
   // Calculate cost based on model pricing
   const cost = calculateCost(model, usage.prompt_tokens, usage.completion_tokens);
+
+  // Serialize prompt messages and extract completion text
+  const promptText = JSON.stringify(request.messages);
+  const completionText = response.choices[0]?.message?.content ?? '';
 
   await dal.aiLogs.create({
     tenantId: metadata.tenantId,
@@ -116,6 +121,8 @@ async function logAIUsage(
     completionTokens: usage.completion_tokens,
     totalTokens: usage.total_tokens,
     cost,
+    prompt: promptText,
+    completion: completionText,
     operation: metadata.operation,
     metadata: {
       request_id: response.id,
